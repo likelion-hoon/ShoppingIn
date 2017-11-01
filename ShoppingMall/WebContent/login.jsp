@@ -40,7 +40,6 @@
 			script.println("</script>");
 		}
 	
-		
 		if(result==1) { // 로그인에 성공하였을 때만 세션을 부여한다.
 				PrintWriter script = response.getWriter();
 			 	session.setAttribute("memId", member.getMemId());

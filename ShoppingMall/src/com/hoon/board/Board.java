@@ -19,7 +19,7 @@ public class Board {
 		super();
 		this.boardId = boardId;
 		this.boardTitle = boardTitle;
-		this.memberId = memberId;
+		this.memberId = memberId;  
 		this.boardDate = boardDate;
 		this.boardContent = boardContent;
 		this.boardAvailable = boardAvailable;
