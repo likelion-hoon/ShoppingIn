@@ -2,12 +2,12 @@ package com.hoon.board; // 1. 패키지화 시키기
 
 public class Board {
 
-	private int boardId; // 2.private 선언
+	private int boardId;  // 2.private 선언
 	private String boardTitle;
-	private String memberId;
+	private String memberId; // 이름 
 	private String boardDate;
 	private String boardContent;
-	private int boardAvailable;
+	private int boardHit; // 조회수 
 
 	// 3. 기본 생성자 생성
 	public Board() {
@@ -15,14 +15,14 @@ public class Board {
 	}
 	
 	public Board(int boardId, String boardTitle, String memberId, String boardDate, String boardContent,
-			int boardAvailable) {
+			int boardAvailable, int boardHit) {
 		super();
 		this.boardId = boardId;
 		this.boardTitle = boardTitle;
 		this.memberId = memberId;  
 		this.boardDate = boardDate;
 		this.boardContent = boardContent;
-		this.boardAvailable = boardAvailable;
+		this.boardHit = boardHit; 
 	}
 	
 	public int getBoardId() {
@@ -65,11 +65,11 @@ public class Board {
 		this.boardContent = boardContent;
 	}
 
-	public int getBoardAvailable() {
-		return boardAvailable;
+	public int getBoardHit() {
+		return boardHit;
 	}
 
-	public void setBoardAvailable(int boardAvailable) {
-		this.boardAvailable = boardAvailable;
+	public void setBoardHit(int boardHit) {
+		this.boardHit = boardHit;
 	}
 }

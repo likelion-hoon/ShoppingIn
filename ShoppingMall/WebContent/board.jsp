@@ -25,14 +25,41 @@
 			
 		%>
 	    <div class="container"> 
+	    		<table style="float:left;margin-bottom:10px;">
+	    			<tr>
+	    				<td> 
+				    		<select name="boardCount" class="form-control pull-left" style="float:left">
+			 				<option value="boardTitle"> 10개씩 보기 </option>
+				    			<option value="boardContent"> 20개씩 보기 </option>
+				    			<option value="boardContent"> 50개씩 보기 </option>
+						</select>
+					</td>
+				</tr>
+			</table>
+	    		
+	    		<!--  게시판 내용 검색 하기  -->	
+	    		<table style="float:right;margin-bottom:10px;">
+	    			<tr>
+	    				<td> 
+	    					<select name="search" class="form-control">
+	    						<option value="boardTitle"> 제목 </option>
+	    						<option value="boardContent"> 작성자 </option>
+	    					</select>
+	    				</td>
+	    				<td><input type="text" class="form-control" style="margin-left:10px;" placeholder="Search.."></td> 
+	    				<td><a href="#" class="btn btn-success" style="margin-left:20px;"> 검색 </a></td>
+	    			</tr>
+	    		</table>
+	    		
 	    		<div class="row">
-	    			<table class="table table-striped" style="text-align:center;border: 1px solid #dddddd">
+	    			<table class="table table-striped table-bordered table-hover" style="text-align:center;border: 1px solid #dddddd">
 	    				<thead>
 	    					<tr>
 	    						<th style="background-color: #eeeeee; text-align: center;"> 번호 </th>
 	    						<th style="background-color: #eeeeee; text-align: center;"> 제목 </th>
 	    						<th style="background-color: #eeeeee; text-align: center;"> 작성자 </th>
 	    						<th style="background-color: #eeeeee; text-align: center;"> 작성일 </th>
+	    						<th style="background-color: #eeeeee; text-align: center;"> 조회수 </th>
 	    					</tr>
 	    				</thead>
 	    				<tbody>
@@ -46,6 +73,7 @@
 	    						<td><a href="view.jsp?boardId=<%= list.get(i).getBoardId() %>"> <%=  list.get(i).getBoardTitle() %> </a></td>
 	    						<td><%= list.get(i).getMemberId() %></td>
 	    						<td><%= list.get(i).getBoardDate() %></td>
+	    						<td><%= list.get(i).getBoardHit()  %> </td>
 	    					</tr>
 	    					<%
 	    						}
@@ -63,6 +91,15 @@
 	    			<%
 	    				}
 	    			%>
+	    			<!-- <nav aria-label="Page navigation example">
+				  <ul class="pagination">
+				    <li class="page-item"><a class="page-link" href="#">Previous</a></li>
+				    <li class="page-item"><a class="page-link" href="#">1</a></li>
+				    <li class="page-item"><a class="page-link" href="#">2</a></li>
+				    <li class="page-item"><a class="page-link" href="#">3</a></li>
+				    <li class="page-item"><a class="page-link" href="#">Next</a></li>
+				  </ul>
+				</nav> -->
 	    			<a href="write_form.jsp" class="btn btn-success pull-right"> 글쓰기 </a>
 	    		</div>
 	    </div>

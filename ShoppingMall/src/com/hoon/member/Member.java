@@ -4,6 +4,7 @@ public class Member {
 
 	private String memId;   // 2. 변수 private로 선언
 	private String memPassword; 
+	private String re_Password; //  비밀번호 재확인 변수 
 	private String memName; 
 	private String memGender; 
 	private String memBirth; 
@@ -14,11 +15,12 @@ public class Member {
 		
 	}
 	
-
-	public Member(String memId, String memPassword, String memName, String memGender, String memBirth,
-			String memPhone) {
+	public Member(String memId, String memPassword, String re_Password, String memName, String memGender,
+			String memBirth, String memPhone) {
+		
 		this.memId = memId;
 		this.memPassword = memPassword;
+		this.re_Password = re_Password;
 		this.memName = memName;
 		this.memGender = memGender;
 		this.memBirth = memBirth;
@@ -40,6 +42,15 @@ public class Member {
 	public void setMemPassword(String memPassword) {
 		this.memPassword = memPassword;
 	}
+	
+	public String getRe_Password() {
+		return re_Password;
+	}
+
+	public void setRe_Password(String re_Password) {
+		this.re_Password = re_Password;
+	}
+
 
 	public String getMemName() {
 		return memName;

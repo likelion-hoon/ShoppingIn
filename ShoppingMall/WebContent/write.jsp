@@ -21,10 +21,10 @@
 	<%
 		PrintWriter script = response.getWriter();
 		String memId = null; 
-		if(session.getAttribute("memId") != null) { // 세션이 없으면 등록 시켜 놓는다.
+		if(session.getAttribute("memId") != null) {  // 세션의 memId값을 가져온후 
 			memId = (String) session.getAttribute("memId"); 
 		}
-		if(memId == null) { // 로그인이 안된 경우 
+		if(memId == null) { // memId의 값이 null이면 
 			script.println("<script>"); 
 			script.println("alert('로그인을 하세요.')"); 
 			script.println("location.href = login_form.jsp'"); 
@@ -39,7 +39,8 @@
 				BoardDAO boardDAO = new BoardDAO(); 
 				int result = boardDAO.write(board.getBoardTitle(), memId, board.getBoardContent()); 
 				
-				if(result == -1) { // 글쓰기 오류 발생
+				System.out.println(result); 
+				if(result == -2) { // 글쓰기 오류 발생
 					script.println("<script>"); 
 					script.println("alert('글쓰기에 실패했습니다.')");
 					script.println("history.back()"); 
@@ -52,7 +53,6 @@
 			}
 		}
 	%>
-	
 </body>
 </html>
 

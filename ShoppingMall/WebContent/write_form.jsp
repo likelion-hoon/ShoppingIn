@@ -14,7 +14,6 @@
 			script.println("location.href = 'login_form.jsp'");
 			script.println("</script>");
 		}
-	
 	%>
     <div class="container"> 
     		<div class="row">

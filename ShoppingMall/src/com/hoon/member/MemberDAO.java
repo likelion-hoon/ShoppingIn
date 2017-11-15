@@ -16,7 +16,7 @@ public class MemberDAO {
 	// 생성자
 	public MemberDAO() {
 		try {
-			String dbURL = "jdbc:mysql://localhost:3306/shopping"; 
+			String dbURL = "jdbc:mysql://localhost:3306/shopping?autoReconnect=true&useSSL=false"; 
 			String dbID = "root"; 
 			String dbPassword = "1234"; 
 			Class.forName("com.mysql.jdbc.Driver"); // 드라이버 로드 
@@ -72,12 +72,48 @@ public class MemberDAO {
 		
 	}
 	
-	// 데이터베이스 접속 종료 
-		public void close()  {
+	// 아이디 중복 체크 함수 
+		public int registerCheck(String memId) {
+
+			PreparedStatement pstmt = null;
+			ResultSet rs = null;
+
+			String sql = "SELECT * FROM member WHERE memId = ?";
 			try {
-				conn.close();
-			} catch (SQLException e) {
+				pstmt = conn.prepareStatement(sql);
+				pstmt.setString(1, memId);
+				rs = pstmt.executeQuery();
+
+				if (rs.next()) { 
+					return 0; // 이미 존재하는 회원
+				} else if(memId.equals("")){
+					return 2; // 아무것도 입력하지 않음
+				} else if(!memId.contains("@")) {
+					return 3; // 이메일 형식이 아닙니다.
+				} else {
+					return 1; // 가입 가능한 회원 아이디 
+				}
+			} catch (Exception e) {
 				e.printStackTrace();
-			} 
+			} finally {
+				try {
+					if (rs != null)	rs.close();
+					if (pstmt != null) pstmt.close();
+					if (conn != null) conn.close();
+				} catch (Exception e) {
+					e.printStackTrace();
+				}
+			}
+			
+			return -1; // 데이터베이스 오류
 		}
+	
+	// 데이터베이스 접속 종료 
+	public void close()  {
+		try {
+			conn.close();
+		} catch (SQLException e) {
+			e.printStackTrace();
+		} 
+	}
 }
