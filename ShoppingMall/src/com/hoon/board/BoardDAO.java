@@ -23,7 +23,22 @@ public class BoardDAO {
 		} catch (Exception e) {
 			e.printStackTrace();
 		} 
-				
+	}
+	
+	// 접속을 종료 시키는 함수 
+	public void close() {
+		if(conn != null)
+			try {
+				conn.close();
+			} catch (SQLException e) {
+				e.printStackTrace();
+			}
+		if(rs != null)
+			try {
+				rs.close();
+			} catch (SQLException e) {
+				e.printStackTrace();
+			} 
 	}
 
 	// 날짜 반환 함수 
@@ -71,18 +86,16 @@ public class BoardDAO {
 		try {
 			pstmt = conn.prepareStatement(sql);
 			pstmt.setInt(1, boardId);
-			
 			return pstmt.executeUpdate();
-			
 		} catch (SQLException e) {
 			e.printStackTrace();
 		} 
 		return -1; // DB오류
 	}
 
-	public int write(String boardTitle, String memberId, String boardContent) {
+	public int write(String boardTitle, String memberId, String boardContent, String fileName, String fileRealName) {
 		
-		String sql = "INSERT INTO board values(?,?,?,?,?,?)";
+		String sql = "INSERT INTO board values(?,?,?,?,?,?,?,?)";
 		String date = getDate().substring(0,4)+"년 "+getDate().substring(5,7)+"월 "+ getDate().substring(8,10)+"일 "+ getDate().substring(11,13)+"시 "
 				+getDate().substring(14,15)+"분 "+getDate().substring(17,19)+"초 ";
 		
@@ -95,7 +108,9 @@ public class BoardDAO {
 			pstmt.setString(3, memberId);
 			pstmt.setString(4, date);
 			pstmt.setString(5, boardContent);
-			pstmt.setInt(6, 0); // 처음 글쓸때 조회수는 0으로 입
+			pstmt.setInt(6, 0); // 처음 글쓸때 조회수는 0으로 입력
+			pstmt.setString(7, fileName);
+			pstmt.setString(8, fileRealName);
 			
 			return pstmt.executeUpdate();
 		} catch (Exception e) {
@@ -125,6 +140,8 @@ public class BoardDAO {
 				board.setBoardDate(rs.getString(4));
 				board.setBoardContent(rs.getString(5));
 				board.setBoardHit(rs.getInt(6));
+				board.setFileName(rs.getString(7));
+				board.setFileRealName(rs.getString(8));
 				list.add(board);
 			}
 		} catch (Exception e) {
@@ -173,6 +190,8 @@ public class BoardDAO {
 				board.setBoardDate(rs.getString(4));
 				board.setBoardContent(rs.getString(5));
 				board.setBoardHit(rs.getInt(6));
+				board.setFileName(rs.getString(7));
+				board.setFileRealName(rs.getString(8));
 				return board;
 			}
 		} catch (Exception e) {
@@ -189,7 +208,6 @@ public class BoardDAO {
 		PreparedStatement pstmt = null;
 		
 		try {
-			
 			pstmt = conn.prepareStatement(sql);
 			pstmt.setString(1, boardTitle); 
 			pstmt.setString(2, boardContent);
@@ -218,4 +236,41 @@ public class BoardDAO {
 		} 
 		return -1; // DB 오류
 	}
+	
+	// 해당하는 게시글만 나타내기(boardTitle or boardContent) 
+	public void searchBoard(String standard, String searchContent) {
+		
+		String sql = "select * from board where ? = ?"; 
+		
+		try {
+			PreparedStatement pstmt = conn.prepareStatement(sql);
+			pstmt.setString(1, standard);
+			pstmt.setString(2, ""); // 해당 내용 
+			rs = pstmt.executeQuery(); 
+			
+			while(rs.next()) {
+				
+			}
+			
+		} catch(Exception e) {
+			e.printStackTrace();
+		}
+	}
+	
+	// boardId에 맞는 fileRealName 가져오기 
+	public String getFileRealName(int boardId) {
+		String sql = "select fileRealName from board where boardId = ?";
+		try {
+			PreparedStatement pstmt = conn.prepareStatement(sql);
+			pstmt.setInt(1, boardId);
+			rs = pstmt.executeQuery();
+			if(rs.next()) {
+				return rs.getString(1); 
+			}
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		return null; // 데이터 베이스 오류  
+	}
+	
 }

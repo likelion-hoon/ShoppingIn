@@ -16,6 +16,7 @@
 				script.println("alert('로그인이 필요합니다.')");
 				script.println("location.href = 'login_form.jsp'");
 				script.println("</script>");
+			 	script.close(); 
 			}
 			
 			int pageNumber = 1; 
@@ -29,27 +30,30 @@
 	    			<tr>
 	    				<td> 
 				    		<select name="boardCount" class="form-control pull-left" style="float:left">
-			 				<option value="boardTitle"> 10개씩 보기 </option>
-				    			<option value="boardContent"> 20개씩 보기 </option>
-				    			<option value="boardContent"> 50개씩 보기 </option>
+			 				<option value="board_10"> 10개씩 보기 </option>
+				    			<option value="board_20"> 20개씩 보기 </option>
+				    			<option value="board_30"> 50개씩 보기 </option>
 						</select>
 					</td>
 				</tr>
 			</table>
 	    		
 	    		<!--  게시판 내용 검색 하기  -->	
-	    		<table style="float:right;margin-bottom:10px;">
-	    			<tr>
-	    				<td> 
-	    					<select name="search" class="form-control">
-	    						<option value="boardTitle"> 제목 </option>
-	    						<option value="boardContent"> 작성자 </option>
-	    					</select>
-	    				</td>
-	    				<td><input type="text" class="form-control" style="margin-left:10px;" placeholder="Search.."></td> 
-	    				<td><a href="#" class="btn btn-success" style="margin-left:20px;"> 검색 </a></td>
-	    			</tr>
-	    		</table>
+	    		<form method="POST" action="board.jsp">
+		    		<table style="float:right;margin-bottom:10px;">
+		    			<tr>
+		    				<td> 
+		    					<select name="search" class="form-control">
+		    						<option value="searchTitle"> 제목 </option>
+		    						<option value="searchMemId"> 작성자 </option>
+		    					</select>
+		    				</td>
+		    			
+		    				<td><input type="text" class="form-control" style="margin-left:10px;" placeholder="Search.."></td> 
+		    				<td><button type="submit" class="btn btn-success" style="margin-left:20px;"> 검색 </button></td>
+		    			</tr>
+		    		</table>
+	    		</form>
 	    		
 	    		<div class="row">
 	    			<table class="table table-striped table-bordered table-hover" style="text-align:center;border: 1px solid #dddddd">
@@ -60,24 +64,34 @@
 	    						<th style="background-color: #eeeeee; text-align: center;"> 작성자 </th>
 	    						<th style="background-color: #eeeeee; text-align: center;"> 작성일 </th>
 	    						<th style="background-color: #eeeeee; text-align: center;"> 조회수 </th>
+	    						<th style="background-color: #eeeeee; text-align: center;"> 파일(Y/N) </th>
+	    						 
 	    					</tr>
 	    				</thead>
 	    				<tbody>
 	    					<%
 	    						BoardDAO boardDAO = new BoardDAO(); 
 	    						ArrayList<Board> list = boardDAO.getList(pageNumber);
+	    						
 	    						for(int i=0; i<list.size(); i++) {
+							System.out.println(list.get(i).getFileName());    						
 	    					%>
 	    					<tr>
 	    						<td><%= list.get(i).getBoardId() %></td>
-	    						<td><a href="view.jsp?boardId=<%= list.get(i).getBoardId() %>"> <%=  list.get(i).getBoardTitle() %> </a></td>
+	    						<td><a href="view.jsp?boardId=<%= list.get(i).getBoardId() %>"><%=  list.get(i).getBoardTitle() %></a></td>
 	    						<td><%= list.get(i).getMemberId() %></td>
 	    						<td><%= list.get(i).getBoardDate() %></td>
-	    						<td><%= list.get(i).getBoardHit()  %> </td>
-	    					</tr>
+	    						<td><%= list.get(i).getBoardHit()  %></td>
+	    						<%if(list.get(i).getFileName()==null) { %>
+	    							<td>	 N </td>
+	    						<% } else { %>
+	    						    <td> Y </td>
+	    						<% }%>
+	    						
 	    					<%
 	    						}
 	    					%>
+	    					</tr>
 	    				</tbody>
 	    			</table>
 	    			<%

@@ -58,7 +58,7 @@
 			int result = boardDAO.delete(boardId);
 			if(result == -1) { // 글	수정 오류 발생 
 				script.println("<script>"); 
-				script.println("alert('글 삭에 실패했습니다.')");
+				script.println("alert('글 삭제에 실패했습니다.')");
 				script.println("history.back()"); 
 				script.println("</script>"); 
 			} else { // 글쓰기 정상 완료!

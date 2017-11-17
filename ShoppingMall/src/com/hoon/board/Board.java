@@ -8,6 +8,8 @@ public class Board {
 	private String boardDate;
 	private String boardContent;
 	private int boardHit; // 조회수 
+	private String fileName;
+	private String fileRealName;
 
 	// 3. 기본 생성자 생성
 	public Board() {
@@ -15,14 +17,15 @@ public class Board {
 	}
 	
 	public Board(int boardId, String boardTitle, String memberId, String boardDate, String boardContent,
-			int boardAvailable, int boardHit) {
-		super();
+			int boardAvailable, int boardHit, String fileName, String fileRealName) {
 		this.boardId = boardId;
 		this.boardTitle = boardTitle;
 		this.memberId = memberId;  
 		this.boardDate = boardDate;
 		this.boardContent = boardContent;
 		this.boardHit = boardHit; 
+		this.fileName = fileName; 
+		this.fileRealName = fileRealName; 
 	}
 	
 	public int getBoardId() {
@@ -72,4 +75,22 @@ public class Board {
 	public void setBoardHit(int boardHit) {
 		this.boardHit = boardHit;
 	}
+
+	public String getFileName() {
+		return fileName;
+	}
+
+	public void setFileName(String fileName) {
+		this.fileName = fileName;
+	}
+
+	public String getFileRealName() {
+		return fileRealName;
+	}
+
+	public void setFileRealName(String fileRealName) {
+		this.fileRealName = fileRealName;
+	}
+	
+	
 }
