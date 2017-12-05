@@ -2,56 +2,8 @@
     pageEncoding="UTF-8"%>
 <html>
 <head>
-	<style type="text/css">
-		table {
-			width:100%;		
-		}
-		h5 {
-			text-align:center;
-		}
-	</style>
-	<script type="text/javascript"> 
-		function registerCheckFunction() {
-	
-			var memId = $('#memId').val(); 
-			$.ajax({
-				type: 'POST',
-				url: './MemberRegisterCheckServlet',
-				data: {memId: memId},
-				success: function(result) {
-				
-					if(result==0) {
-						$('#checkMessage').html('이미 존재하는 아이디입니다.');
-						$('#checkType').attr('class','modal-content panel-info');
-						$('#memId').val("");
-					} else if(result==2) {
-						$('#checkMessage').html('입력을 해주세요.');
-						$('#checkType').attr('class','modal-content panel-warning');
-					} else if(result==3){
-						$('#checkMessage').html('이메일 형식이 아닙니다.');
-						$('#checkType').attr('class','modal-content panel-warning');
-						$('#memId').val("");
-					} else {
-						$('#checkMessage').html('사용할 수 있는 아이디입니다.');
-						$('#checkType').attr('class','modal-content panel-success'); 
-					}
-					$('#checkModal').modal('show'); 
-				}
-			});
-		}
-		
-		function passwordCheckFunction() {
-			var userPassword1 = $('#memPassword').val(); 
-			var userPassword2 = $('#re_memPassword').val(); 
-			
-			if(userPassword1 != userPassword2) {
-				$('#passwordCheckMessage').attr('style','color:red;text-align:center');
-				$('#passwordCheckMessage').html('비밀번호가 서로 일치하지 않습니다.');
-			} else  {
-				$('#passwordCheckMessage').html(''); 
-			} 
-		}
-		</script>
+	<!-- 회원가입시 필요한 자바스크립트 함수 import -->
+	<script type="text/javascript" src="js/registration.js"></script>
 </head>
 <body>
 	<%@ include file="nav.jsp"%>
@@ -77,7 +29,7 @@
 					
 				 	<tbody>
 						<tr>
-							<td style="width:110px;"><h5> 아이디 </h5></td>
+							<td class="firstColumn"><h5> 아이디 </h5></td>
 							<td>
 								<div class="form-group has-success has-feedback">
 									<input type="email" class="form-control" id="memId" placeholder="아이디(이메일)" name="memId" maxlength="40">
@@ -91,7 +43,7 @@
 							</td>
 						</tr>
 						<tr>
-							<td style="width:110px;"><h5> 비밀번호 </h5></td>
+							<td class="firstColumn"><h5> 비밀번호 </h5></td>
 							<td colspan="2">
 								<div class="form-group has-success has-feedback">
 									<input onkeyup="passwordCheckFunction();" type="password" class="form-control"  id="memPassword" placeholder="비밀번호" name="memPassword" maxlength="30">
@@ -100,7 +52,7 @@
 							</td>
 						</tr>
 						<tr>
-							<td style="width:110px;"><h5> 비밀번호 확인</h5></td>
+							<td class="firstColumn"><h5> 비밀번호 확인</h5></td>
 							<td colspan="2">
 								<div class="form-group has-success has-feedback">
 									<input onkeyup="passwordCheckFunction();" type="password" class="form-control" id="re_memPassword" placeholder="비밀번호 재확인" name="re_memPassword" maxlength="30">
@@ -109,7 +61,7 @@
 							</td>
 						</tr>
 						<tr>
-							<td style="width:110px;"><h5> 이름 </h5></td>
+							<td class="firstColumn"><h5> 이름 </h5></td>
 							<td colspan="2">
 								<div class="form-group has-success">
 									<input type="text" class="form-control" id="memName" placeholder="이름" name="memName" maxlength="20">
@@ -117,7 +69,7 @@
 							</td>
 						</tr>
 						<tr>
-							<td style="width:110px;"><h5> 성별 </h5></td>
+							<td class="firstColumn"><h5> 성별 </h5></td>
 							<td>
 								<div class="form-group">
 									<div class="btn-group" data-toggle="buttons"> 
@@ -132,15 +84,22 @@
 							</td>
 						</tr>
 						<tr> 
-							<td style="width:110px;"><h5> 생년월일 </h5></td>
-							<td colspan="2">
+							<td class="firstColumn"><h5> 생년월일 </h5></td>
+							<td>
 								<div class="form-group has-success">
-									<input type="text" class="form-control" id="memBirth" placeholder="생년월일" name="memBirth" maxlength="20">
+									<table>
+										<tr>
+											<td><input type="text" class="form-control" id="memYear" placeholder="년(4자)" name="memYear" maxlength="20" size="10px"></td>
+											<td><input type="text" class="form-control" id="memMonth" placeholder="월" name="memMonth" maxlength="20" size="10px"></td>
+											<td><input type="text" class="form-control" id="memDate" placeholder="일" name="memDate" maxlength="20" size="10px"></td>
+										</tr>
+									</table>
 								</div>
 							</td>
+							
 						</tr>
 						<tr>
-							<td style="width:110px;"><h5> 핸드폰번호 </h5></td>
+							<td class="firstColumn"><h5> 핸드폰번호 </h5></td>
 							<td colspan="2">
 								<div class="form-group has-success">
 									<input type="text" class="form-control" id="memPhone" placeholder="휴대폰번호" name="memPhone" maxlength="20">

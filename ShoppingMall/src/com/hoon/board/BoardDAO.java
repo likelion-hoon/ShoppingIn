@@ -7,6 +7,9 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
 
+import javax.naming.InitialContext;
+import javax.sql.DataSource;
+
 public class BoardDAO {
 
 	Connection conn = null;
@@ -15,11 +18,12 @@ public class BoardDAO {
 	// 생성자
 	public BoardDAO() {
 		try {
-			String dbURL = "jdbc:mysql://localhost:3306/shopping?autoReconnect=true&useSSL=false";
-			String dbID = "root";
-			String dbPassword = "1234";
-			Class.forName("com.mysql.jdbc.Driver"); // 드라이버 로드
-			conn = DriverManager.getConnection(dbURL, dbID, dbPassword);
+			// JNDI 서버 객체 생성
+			InitialContext ic = new InitialContext(); 
+			// lookup()
+			DataSource ds = (DataSource) ic.lookup("java:comp/env/jdbc/mysql");
+			// getConnection()
+			conn = ds.getConnection();
 		} catch (Exception e) {
 			e.printStackTrace();
 		} 
@@ -27,18 +31,18 @@ public class BoardDAO {
 	
 	// 접속을 종료 시키는 함수 
 	public void close() {
-		if(conn != null)
-			try {
-				conn.close();
-			} catch (SQLException e) {
-				e.printStackTrace();
-			}
 		if(rs != null)
 			try {
 				rs.close();
 			} catch (SQLException e) {
 				e.printStackTrace();
 			} 
+		if(conn != null)
+			try {
+				conn.close();
+			} catch (SQLException e) {
+				e.printStackTrace();
+			}
 	}
 
 	// 날짜 반환 함수 
@@ -238,23 +242,35 @@ public class BoardDAO {
 	}
 	
 	// 해당하는 게시글만 나타내기(boardTitle or boardContent) 
-	public void searchBoard(String standard, String searchContent) {
+	public ArrayList<Board> searchBoard(String searchType, String searchValue) {
 		
 		String sql = "select * from board where ? = ?"; 
+		ArrayList<Board> list = new ArrayList<Board>();
 		
 		try {
 			PreparedStatement pstmt = conn.prepareStatement(sql);
-			pstmt.setString(1, standard);
-			pstmt.setString(2, ""); // 해당 내용 
-			rs = pstmt.executeQuery(); 
+			pstmt.setString(1, searchType);
+			pstmt.setString(2, searchValue);
 			
-			while(rs.next()) {
-				
+			rs = pstmt.executeQuery();
+
+			while (rs.next()) { // 각각의 페이지 마다
+				Board board = new Board();
+				board.setBoardId(rs.getInt(1));
+				board.setBoardTitle(rs.getString(2));
+				board.setMemberId(rs.getString(3));
+				board.setBoardDate(rs.getString(4));
+				board.setBoardContent(rs.getString(5));
+				board.setBoardHit(rs.getInt(6));
+				board.setFileName(rs.getString(7));
+				board.setFileRealName(rs.getString(8));
+				list.add(board);
 			}
-			
-		} catch(Exception e) {
+		} catch (Exception e) {
 			e.printStackTrace();
-		}
+		} 
+		
+		return list;
 	}
 	
 	// boardId에 맞는 fileRealName 가져오기 

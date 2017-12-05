@@ -5,6 +5,9 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 
+import javax.naming.InitialContext;
+import javax.sql.DataSource;
+
 // MySQL에 연결하는 역할의 클래스 
 // 데이터 접근 객체  
 public class MemberDAO {
@@ -16,14 +19,15 @@ public class MemberDAO {
 	// 생성자
 	public MemberDAO() {
 		try {
-			String dbURL = "jdbc:mysql://localhost:3306/shopping?autoReconnect=true&useSSL=false"; 
-			String dbID = "root"; 
-			String dbPassword = "1234"; 
-			Class.forName("com.mysql.jdbc.Driver"); // 드라이버 로드 
-			conn = DriverManager.getConnection(dbURL,dbID,dbPassword); 
+			// JNDI 서버 객체 생성
+			InitialContext ic = new InitialContext(); 
+			// lookup()
+			DataSource ds = (DataSource) ic.lookup("java:comp/env/jdbc/mysql");
+			// getConnection()
+			conn = ds.getConnection();
 		} catch (Exception e) {
 			e.printStackTrace();
-		}
+		} 
 	}
 	
 	public int login(String memId, String memPassword) {

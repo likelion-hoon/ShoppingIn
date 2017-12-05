@@ -36,10 +36,7 @@
 		
 		String boardTitle = multipartRequest.getParameter("boardTitle"); 
 		String boardContent = multipartRequest.getParameter("boardContent"); 
-		
-		System.out.println(boardTitle);
-		System.out.println(boardContent);
-		
+				
 		String fileName = multipartRequest.getOriginalFileName("file");
 		String fileRealName = multipartRequest.getFilesystemName("file");
 		

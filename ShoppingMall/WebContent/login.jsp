@@ -19,6 +19,8 @@
 	</head>
 <body>
 	<%
+		String checkbox = request.getParameter("checkbox"); 
+	
 		request.setCharacterEncoding("UTF-8");
 	    
 		MemberDAO memberDAO = new MemberDAO(); 
@@ -32,17 +34,14 @@
 			memId = (String) session.getAttribute("memId"); 
 		}
 		
-		if(memId != null) {
-			PrintWriter script = response.getWriter();
-			script.println("<script>"); 
-			script.println("alert('이미 로그인이 되어있습니다.')"); 
-			script.println("location.href = main.jsp");
-			script.println("</script>");
-		}
 	
 		if(result==1) { // 로그인에 성공하였을 때만 세션을 부여한다.
 				PrintWriter script = response.getWriter();
 			 	session.setAttribute("memId", member.getMemId());
+			 	if(checkbox != null) {
+			 		System.out.println("실행완료");
+					session.setMaxInactiveInterval(60*60*24); 
+				}
 				script.println("<script>"); 
 				script.println("location.href='main.jsp'"); 
 				script.println("</script>"); 

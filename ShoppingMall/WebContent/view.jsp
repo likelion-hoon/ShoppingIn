@@ -10,6 +10,27 @@
 
 <!DOCTYPE html> 
 <html>
+	<head>
+		<script type="text/javascript">
+			function sendReplyFunction() {
+				
+				var id = $('#replyId').val(); 
+				var content = $('#replyId').val(); 
+				
+				
+				$.ajax({
+					type : 'GET',
+					url : './ReplyServlet',
+					data : {
+						id : id,
+						content : content
+					},
+					success : function(result) {
+					}
+				});
+			}
+		</script>
+	</head>
 	<body>
 		<%@ include file="nav.jsp" %>
 		<%
@@ -41,6 +62,10 @@
 		    					</tr>
 		    				</thead>
 		    				<tbody>
+		    					<tr>
+		    						<td style="border-right:1px solid #eeeeee;width:100px;">글 번호</td>
+		    						<td colspan="2"><%= board.getBoardId() %></td>
+		    					</tr>
 		    					<tr>
 		    						<td style="border-right:1px solid #eeeeee;width:100px;">글 제목</td>
 		    						<td colspan="2"><%= board.getBoardTitle().replaceAll(" ", "&nbsp;").replaceAll("<","&lt;").replaceAll(">","&gt;").replaceAll("\n","<br>") %></td>
@@ -76,16 +101,17 @@
 	    		</div>
 	    		
 	    		<!-- 댓글이 들어갈 위치 -->
+	    		<div id="insertReply"></div>
 	    		
 	    		<hr>
 	    		<!-- 댓글 창이 들어갈 위치 -->
 	    		<div class="row"> 
 		    		<div class="form-group">
-			    		 <form action="reply.jsp" method="POST"> 
+			    		<form name="replyform" method="get"> 
 			    			<p style="margin-bottom:20px"> 작성자 : <%= session.getAttribute("memId") %></p>
-			    			
-			    			<textarea class="form-control" placeholder="댓글 내용" name="replayContent" maxlength="300" style="height:70px;margin-bottom:20px;"></textarea>
-			    			<input type="submit" class="btn btn-success" value="작성">  
+			    			<input type="hidden" class="form-control" id="replyId" name="replyId"> 
+			    			<textarea class="form-control" placeholder="댓글 내용" id="replyContent" name="replyContent" maxlength="300" style="height:70px;margin-bottom:20px;"></textarea>
+			    			<button class="btn btn-success" onclick="sendReplyFunction();"> 작성 </button>
 			    		</form>
 			    		<hr>
 			    	</div>

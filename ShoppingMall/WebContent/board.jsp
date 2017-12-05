@@ -7,10 +7,46 @@
 
 <html>
 	<body>
+		<script type="text/javascript">
+			function searchBoardFunction() {
+				var searchType = $('#searchType').val();
+				var searchValue = $('#searchValue').val();
+				
+				$.ajax({
+					type : 'POST',
+					url : './SearchBoardServlet',
+					data : {
+						searchType : searchType,
+						searchValue : searchValue
+					},
+					success : function(result) {
+					}
+				});
+			}
+			
+			function onChangeValue() {
+				var boardCount = $('#boardCount').val();
+				
+				$.ajax({
+					type : 'POST',
+					url : './OnChangeValueServlet',
+					data : {
+						boardCount : boardCount
+					},
+					success : function(result) {
+					}
+				});
+			}
+			
+			document.oncontextmenu = function(e) {
+				   alert("오른쪽버튼을 이용할 수 없습니다.");
+				   return false;
+		    }
+		</script>
 		<%@ include file="nav.jsp" %>
 		<%	
 			PrintWriter script = response.getWriter(); 
-		
+	
 			if(memId==null) {  // 세션을 가져왔는데도 null값인 경우에는 로그인을 하라고 돌려보낸다. 
 				script.println("<script>");
 				script.println("alert('로그인이 필요합니다.')");
@@ -26,34 +62,36 @@
 			
 		%>
 	    <div class="container"> 
+	    
+	    		<!--  10개씩 보기, 20개씩 보기 구현 -->
 	    		<table style="float:left;margin-bottom:10px;">
 	    			<tr>
 	    				<td> 
-				    		<select name="boardCount" class="form-control pull-left" style="float:left">
-			 				<option value="board_10"> 10개씩 보기 </option>
-				    			<option value="board_20"> 20개씩 보기 </option>
-				    			<option value="board_30"> 50개씩 보기 </option>
-						</select>
+				    		<select id="boardCount" name="boardCount" class="form-control pull-left" style="float:left">
+			 				<option value="10"> 10개 </option>
+				    			<option value="20"> 20개 </option>
+						</select> 
+					</td>
+					<td>
+						<a href="board.jsp" onclick="onChangeValue();" type="button" class="btn btn-success" style="margin-left:10px;"> 보기 </a>
 					</td>
 				</tr>
 			</table>
 	    		
 	    		<!--  게시판 내용 검색 하기  -->	
-	    		<form method="POST" action="board.jsp">
-		    		<table style="float:right;margin-bottom:10px;">
-		    			<tr>
-		    				<td> 
-		    					<select name="search" class="form-control">
-		    						<option value="searchTitle"> 제목 </option>
-		    						<option value="searchMemId"> 작성자 </option>
-		    					</select>
-		    				</td>
-		    			
-		    				<td><input type="text" class="form-control" style="margin-left:10px;" placeholder="Search.."></td> 
-		    				<td><button type="submit" class="btn btn-success" style="margin-left:20px;"> 검색 </button></td>
-		    			</tr>
-		    		</table>
-	    		</form>
+	    		<table style="float:right;margin-bottom:10px;">
+	    			<tr>
+	    				<td> 
+	    					<select id="searchType" name="searchType" class="form-control">
+	    						<option value="boardTitle"> 제목 </option>
+	    						<option value="memberId"> 작성자 </option>
+	    					</select>
+	    				</td>
+	    			
+	    				<td><input id="searchValue" type="text" class="form-control" style="margin-left:10px;" placeholder="Search.."></td> 
+	    				<td><button onclick="searchBoardFunction();" type="submit" class="btn btn-success" style="margin-left:20px;"> 검색 </button></td>
+	    			</tr>
+	    		</table>
 	    		
 	    		<div class="row">
 	    			<table class="table table-striped table-bordered table-hover" style="text-align:center;border: 1px solid #dddddd">
@@ -74,7 +112,6 @@
 	    						ArrayList<Board> list = boardDAO.getList(pageNumber);
 	    						
 	    						for(int i=0; i<list.size(); i++) {
-							System.out.println(list.get(i).getFileName());    						
 	    					%>
 	    					<tr>
 	    						<td><%= list.get(i).getBoardId() %></td>
@@ -97,11 +134,11 @@
 	    			<%
 	    				if(pageNumber != 1) {
 	    			%>
-	    				<a href="board.jsp?pageNumber=<%= pageNumber -1 %>" class="btn btn-success btn-arraw-left"> 이전 </a>
+	    				<a href="board.jsp?pageNumber=<%= pageNumber -1 %>" class="btn btn-success btn-arrow-left"> 이전 </a>
 	    			<%
 	    				} if(boardDAO.nextPage(pageNumber + 1)) {
 	    			%>	
-	    			<a href="board.jsp?pageNumber=<%= pageNumber + 1 %>" class="btn btn-success btn-arraw-right"> 다음 </a>
+	    			<a href="board.jsp?pageNumber=<%= pageNumber + 1 %>" class="btn btn-success btn-arrow-right"> 다음 </a>
 	    			<%
 	    				}
 	    			%>

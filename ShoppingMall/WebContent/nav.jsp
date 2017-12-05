@@ -29,22 +29,13 @@
 					<span class="icon-bar"></span> 
 					<span class="icon-bar"></span>
 				</button>
-				<a class="navbar-brand" href="main.jsp">	 로고자리 </a>
+				<a class="navbar-brand" href="main.jsp"><img src="images/logo.png" alt="Logo" width="40px" height="25px"></a>
 			</div>
 			
 			<div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
 				<ul class="nav navbar-nav">
 					<li><a href="main.jsp"> 메인화면 <span class="glyphicon glyphicon-home"></span></a></li>
 					<li><a href="board.jsp"> Q&A게시판 <span class="glyphicon glyphicon-list"></span></a></li>
-					<!-- <li class="dropdown" >
-						<a href="#" class="dropdown-toggle"
-						data-toggle="dropdown" role="button" aria-haspopup="true"
-						aria-expanded="false"> 게시판 <span class="caret"></span></a>
-						<ul class="dropdown-menu">
-							<li><a href="board.jsp"> 자유게시판 </a></li>
-							<li><a href="#"> Q&A게시판 </a></li>
-						</ul>
-					</li> -->
 					<li><a href="#"> 채팅방 <span class="glyphicon glyphicon-off"></span></a></li>
 					<li><a href="findmart.jsp">	 마트찾기 <span class="glyphicon glyphicon-screenshot"></span></a>
 					<li><a href="#"> 쇼핑일기 <span class="glyphicon glyphicon-pencil"></span></a></li>

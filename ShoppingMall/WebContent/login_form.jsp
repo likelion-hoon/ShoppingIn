@@ -1,11 +1,22 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
+<%@ page import="java.io.PrintWriter" %>
 <html>
 	<head>
 		<link rel="stylesheet" href="css/loginAndRegist.css">
 	</head>
 	<body>
 	<%@ include file="nav.jsp" %>
+	<%
+		if(memId != null) {
+		PrintWriter script = response.getWriter();
+		script.println("<script>"); 
+		script.println("alert('이미 로그인이 되어있습니다.')"); 
+		script.println("history.go(-1)");
+		script.println("</script>");
+	}
+	
+	%>
 	
     <!--  로그인 화면 구현 시 -->
 	<div class="container" style="margin-top:60px;">
@@ -43,7 +54,7 @@
 							<tr>
 								<td>
 									<div class="form-group">
-										<input type="checkbox" id="checkbox" class="form-check-input"> 로그인 상태 유지<br>
+										<input type="checkbox" id="checkbox" name="checkbox" value="checkbox" class="form-check-input"> 로그인 상태 유지<br>
 									</div>
 								</td>
 							</tr>

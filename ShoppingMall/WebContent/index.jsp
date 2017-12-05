@@ -4,11 +4,11 @@
 <html>
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-<title> Shopping-In에 오신 것을 환영합니다. </title>
+<title>Insert title here</title>
 </head>
 <body>
-	<script> 
-		location.href = "main.jsp"; 
-	</script>
+  <script>
+  	location.href = "main.jsp";
+  </script>
 </body>
-</html> 
+</html>
